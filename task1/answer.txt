@@ -1,0 +1,45 @@
+2, 3
+1, 2
+0, 2
+3, 4
+2, 4
+0, 2
+1, 2
+null
+5, 8
+
+Source Code:
+
+const fs = require('fs');
+
+function findTwoChocolates(weights, target) {
+    // For each position j (second chocolate)
+    for (let j = 0; j < weights.length; j++) {
+        // For each position i before j (first chocolate)
+        for (let i = 0; i < j; i++) {
+            if (weights[i] + weights[j] === target) {
+                return [i, j];
+            }
+        }
+    }
+    return null;
+}
+
+// Read and parse input file
+const input = fs.readFileSync('CG25task1_input.txt', 'utf8').trim().split('\n');
+
+const results = [];
+for (let i = 0; i < input.length; i += 2) {
+    const weights = JSON.parse(input[i]);
+    const target = parseInt(input[i + 1]);
+
+    const result = findTwoChocolates(weights, target);
+    if (result === null) {
+        results.push('null');
+    } else {
+        results.push(`${result[0]}, ${result[1]}`);
+    }
+}
+
+// Output results
+results.forEach(result => console.log(result));
